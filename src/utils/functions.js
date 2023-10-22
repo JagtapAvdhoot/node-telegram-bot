@@ -1,18 +1,25 @@
-const { readFile } = require("./fs");
+const { readFile, writeFile } = require("./fs");
 const path = require("path");
 const { createKeywords } = require("./puppeteer");
 
-exports.updateSearchData = async (keywords) => {
-  let currentDayData;
+exports.updateSearchData = (keywords) => {
+  // let currentDayData;
   try {
     const _keywords = createKeywords(keywords);
-    let staleSearchData = await readFile(
-      path.join(process.cwd(), "src", "data", "search.json"),
+    const searchFilePath = path.join(
+      process.cwd(),
+      "src",
+      "data",
+      "search.json",
     );
-    const today = new Date().toLocaleDateString();
+    let staleSearchData = readFile(searchFilePath);
+    // const today = new Date().toLocaleDateString();
 
-    if (Array.isArray(staleSearchData[today])) {
-    }
+    // if (Array.isArray(staleSearchData[today])) {
+    //   currentDayData = staleSearchData[today];
+    // } else {
+    //   currentDayData = [];
+    // }
 
     for (let keyword of _keywords) {
       const searchExists = staleSearchData.findIndex(
@@ -32,7 +39,19 @@ exports.updateSearchData = async (keywords) => {
         };
       }
     }
+
+    // staleSearchData[today] = currentDayData;
+
+    writeFile(searchFilePath, staleSearchData);
+    return _keywords.join("+");
   } catch (error) {
     console.log(error, "from update search data");
   }
+};
+
+exports.generateRandomIP = () => {
+  const segment = () => Math.floor(Math.random() * 256);
+  const ipSegments = Array.from({ length: 4 }, segment);
+  const ipAddress = ipSegments.join(".");
+  return ipAddress;
 };
