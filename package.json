@@ -2,11 +2,14 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "node-telegram-bot-api": "^0.63.0",
+    "puppeteer": "^21.4.0",
+    "user-agents": "^1.0.1444",
+    "uuid": "^9.0.1",
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start":"node src/index.js",
-    "dev":"nodemon src/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
